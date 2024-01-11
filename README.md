@@ -1,4 +1,4 @@
-# Project: Spark and Human Balance
+# Project: Spark and Human Balance Analytics
 
 ## Table of Contents
 
