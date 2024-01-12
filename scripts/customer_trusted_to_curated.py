@@ -62,15 +62,17 @@ DropDuplicates_node1704970849212 = DynamicFrame.fromDF(
 )
 
 # Script generated for node Amazon S3
-AmazonS3_node1704907138121 = glueContext.write_dynamic_frame.from_options(
-    frame=DropDuplicates_node1704970849212,
+AmazonS3_node1704907138121 = glueContext.getSink(
+    path="s3://kamal-data-lake/customer/curated/",
     connection_type="s3",
-    format="json",
-    connection_options={
-        "path": "s3://kamal-data-lake/customer/curated/",
-        "partitionKeys": [],
-    },
+    updateBehavior="LOG",
+    partitionKeys=["email"],
+    enableUpdateCatalog=True,
     transformation_ctx="AmazonS3_node1704907138121",
 )
-
+AmazonS3_node1704907138121.setCatalogInfo(
+    catalogDatabase="stedi-lakehosue-kamal", catalogTableName="customer_trusted"
+)
+AmazonS3_node1704907138121.setFormat("json")
+AmazonS3_node1704907138121.writeFrame(DropDuplicates_node1704970849212)
 job.commit()
